@@ -1,0 +1,7 @@
+*.rds
+*.docx
+*.pdf
+figures/
+.Rproj.user/
+.Rhistory
+.RData
