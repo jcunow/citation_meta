@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this script, please cite it."
-title: "citation_meta.R: age of cited literature and of the literature it cites"
+title: "citation_meta: age of cited literature in thesis chapters, and chapter word clouds"
 type: software
 authors:
   - family-names: Cunow

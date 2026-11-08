@@ -1,23 +1,19 @@
-# citation_years.R
+# citation_meta
 
-R script that analyses **how old the literature is** that a manuscript or thesis chapter cites, and how old the literature is that *those* papers cite.
+R scripts for describing the chapters of a thesis (Word with Zotero citations, or PDF).
 
-For each document (Word with Zotero citations, or PDF) it:
-
-1. reads the reference list and the in-text citations and compares them (publication-year histograms, median age, median citation age);
-2. looks up the reference list of every cited paper in [Crossref](https://www.crossref.org/documentation/retrieve-metadata/rest-api/) (free, no key) and takes the publication year registered for each DOI;
-3. pools all documents, counting each work once, and overlays the document references on the references of the cited papers;
-4. reports the citation lag per cited paper, self-citations, and how often each reference is cited in the text.
-
-Figures are saved as SVG.
+| Script | What it does |
+|---|---|
+| `citation_meta.R` | Age of the literature cited in each chapter and of the literature those papers cite (Crossref); redundancy between chapters, citation lag, self-citations, how often each reference is cited in the text. Figures as SVG. |
+| `wordclouds.R` | Word clouds of the chapters (text without the reference list), one per chapter plus a compound figure (PNG and SVG). |
 
 ## Use
 
-1. Install: `officer`, `pdftools`, `stringr`, `dplyr`, `ggplot2`, `jsonlite`, `stringi` (optional: `svglite`).
-2. Edit section **0. INPUT** (paths to your documents, PhD period, optionally the document dates) and the surnames in `self_rx` (section F).
-3. Run the script top to bottom. Section C queries Crossref and can take several minutes; results are cached in `.rds` files and reused on reruns.
+1. Install the packages loaded at the top of each script.
+2. Edit the paths at the top (`chapters_dir` / `in_dir`). `citation_meta.R` also has the surnames for self-citations (`self_rx`, section F) and the PhD period.
+3. Run the script top to bottom. `citation_meta.R` queries Crossref (a few minutes the first time; results are cached in `.rds` files).
 
-## Rules and limitations
+## Rules and limitations of `citation_meta.R`
 
 - **Years of the references of cited papers** are used only if Crossref returns a publication year for the entry's DOI. Entries without a DOI (books, theses, reports) are dropped, so older and non-journal literature is underrepresented and the cited literature may look younger than it is. Years from the entry's own `year` field or from free text are not used (page numbers and title years get mistaken for years).
 - **Identity of a work:** same DOI, or same first-author surname plus the first 40 letters of the title. Initials are not used.
